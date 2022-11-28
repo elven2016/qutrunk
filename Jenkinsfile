@@ -1,7 +1,7 @@
 pipeline {
   agent {
     node {
-      label 'ubunt22.04'
+      label 'ubuntu22.04'
     }
 
   }
