@@ -1,7 +1,7 @@
 pipeline {
   agent {
     node {
-      label 'centos'
+      label 'ubunt22.04'
     }
 
   }
