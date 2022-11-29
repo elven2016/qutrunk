@@ -35,7 +35,7 @@ class SdgGate(BasicGate):
             NotImplementedError: If the argument is not a Qubit object.
         """
         if not isinstance(qubit, QuBit):
-            raise NotImplementedError("The argument must be Qubit object.")
+            raise TypeError("The argument must be Qubit object.")
 
         targets = [qubit.index]
         cmd = Command(self, targets, inverse=self.is_inverse)
@@ -49,7 +49,14 @@ class SdgGate(BasicGate):
     @property
     def matrix(self):
         """Access to the matrix property of this gate."""
-        return np.matrix([[1, 0], [0, 1j]]).getH()
+        m = np.array([[1, 0], [0, 1j]])
+        return np.conjugate(m)
+
+    def inv(self):
+        """Apply inverse gate(SGate)."""
+        gate = SdgGate()
+        gate.is_inverse = not self.is_inverse
+        return gate
 
 
 Sdg = SdgGate()

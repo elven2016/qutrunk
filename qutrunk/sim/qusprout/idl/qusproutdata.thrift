@@ -10,6 +10,41 @@ enum ExecCmdType {
     ExecTypeGpuSingle = 3
 }
 
+//振幅数据
+struct Amplitude {
+    //振幅实部
+    1: required list<double> reals
+
+    //振幅虚部
+    2: required list<double> imags
+
+    //振幅开始索引
+    3: required i32 startind
+
+    //振幅结束索引
+    4: required i32 numamps
+}
+
+//自定义矩阵
+struct Matrix {
+    //矩阵实部
+    1: required list<list<double>> reals
+
+    //矩阵虚部
+    2: required list<list<double>> imags
+    
+    //是否为酉矩阵
+    3: required bool unitary
+}
+
+//扩展指令
+struct Cmdex {
+    //振幅数据
+    1: optional Amplitude amp
+    //矩阵数据
+    2: optional Matrix mat
+}
+
 //指令数据
 struct Cmd {
     //指令门类型
@@ -29,6 +64,9 @@ struct Cmd {
 
     //是否执行逆操作
     6: required bool inverse
+
+    //扩展命令
+    7: optional Cmdex cmdex
 }
 
 //指令集
@@ -132,26 +170,6 @@ struct GetProbAmpResp {
     2: optional double amp
 }
 
-//获取当前qubit的概率
-struct GetProbOfOutcomeReq {
-    //任务id
-    1: required string id
-
-    //qubit索引
-    2: required i32 qubit
-
-    //
-    3: required i32 outcom
-}
-
-struct GetProbOfOutcomeResp {
-    //返回码
-    1: required ecode.BaseCode base
-
-    //概率
-    2: optional double pro_outcome
-}
-
 //获取所有qubit的概率
 struct GetProbOfAllOutcomReq {
     //任务id
@@ -181,31 +199,6 @@ struct GetAllStateResp {
 
     //状态
     2: optional list<string> all_state
-}
-
-//对部分量子比特应用量子傅立叶变换
-struct ApplyQFTReq {
-    //任务id
-    1: required string id
-
-    //目标比特位
-    2: required list<i32> targets
-}
-
-struct ApplyQFTResp {
-    //返回码
-    1: required ecode.BaseCode base
-}
-
-//对所有量子比特应用量子傅立叶变换
-struct ApplyFullQFTReq {
-    //任务id
-    1: required string id
-}
-
-struct ApplyFullQFTResp {
-    //返回码
-    1: required ecode.BaseCode base
 }
 
 //执行任务
